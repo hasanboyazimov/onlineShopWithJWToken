@@ -5,6 +5,7 @@ const url = "https://json-api.uz/api/project/onlineshopuz/products";
 export const getData = createAsyncThunk("product/getData", async () => {
   const req = await fetch(url);
   const { data } = await req.json();
+  console.log(data);
   return data;
 });
 
@@ -24,7 +25,7 @@ export const productSlice = createSlice({
       state.allProducts = payload;
     },
     incrementOrder: (state, { payload }) => {
-      const item = state.allProducts.find((product) => product.id == payload);
+      const item = state.allProducts.find((product) => product.id === payload);
 
       if (!item.amount) {
         item.amount = 1;
@@ -35,19 +36,26 @@ export const productSlice = createSlice({
       productSlice.caseReducers.calculateTotal(state);
     },
     decrementOrder: (state, { payload }) => {
-      const item = state.allProducts.find((product) => product.id == payload);
-      item.amount -= 1;
+      const item = state.allProducts.find((product) => product.id === payload);
+      if (item.amount && item.amount > 0) {
+        item.amount -= 1;
+      }
 
       productSlice.caseReducers.calculateTotal(state);
     },
-    delateOrder: (state, { payload }) => {
-      const data = state.allProducts.find((product) => product.id == payload);
+    deleteOrder: (state, { payload }) => {
+      const data = state.allProducts.find((product) => product.id === payload);
       if (data) {
         data.amount = 0;
       }
       productSlice.caseReducers.calculateTotal(state);
     },
-    clearOrder: (state) => {},
+    clearOrder: (state) => {
+      state.allProducts.forEach((product) => {
+        product.amount = 0;
+      });
+      productSlice.caseReducers.calculateTotal(state);
+    },
     calculateTotal: (state) => {
       state.ordered = state.allProducts.filter((product) => product.amount);
 
@@ -69,7 +77,7 @@ export const productSlice = createSlice({
       })
       .addCase(getData.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.allDeserts = payload;
+        state.allProducts = payload; // Corrected typo
       })
       .addCase(getData.rejected, (state) => {
         state.isLoading = false;
@@ -82,7 +90,7 @@ export const {
   decrementOrder,
   incrementOrder,
   addAllProducts,
-  delateOrder,
+  deleteOrder, // Corrected typo
 } = productSlice.actions;
 
 export default productSlice.reducer;
