@@ -18,7 +18,7 @@ function Card({ product }) {
     <div className="lg:w-[250px] md:w-[220px] w-[200px]  mb-10">
       <div className="flex flex-col  items-center relative">
         <div
-          className={`${addButtons && `border-2 rounded-lg border-[#C73B0F]`}`}
+          className={`${addButtons && `border-2 rounded-lg border-[#0fc76b]`}`}
         >
           <img
             className="rounded-lg transition-all ease-in-out duration-200 "
@@ -28,7 +28,7 @@ function Card({ product }) {
         </div>
         {!addButtons && (
           <button
-            className="w-[160px] flex items-center bg-white px-[28px] py-[12px] rounded-full border border-[#AD8A85] absolute -bottom-6 "
+            className="w-[160px] flex items-center bg-white px-[28px] py-[12px] rounded-full border border-[#0fc76b] absolute -bottom-6 "
             onClick={() => {
               setAddButtons(true);
               dispatch(incrementOrder(product.id));
@@ -38,7 +38,7 @@ function Card({ product }) {
           </button>
         )}
         {addButtons && (
-          <div className="w-[160px] flex justify-between items-center bg-[#C73B0F] text-white px-[12px] py-[12px] rounded-full border border-[#C73B0F] absolute -bottom-6 ">
+          <div className="w-[160px] flex justify-between items-center bg-[#0fc76b] text-white px-[12px] py-[12px] rounded-full border border-[#0fc76b] absolute -bottom-6 ">
             <button
               className="pr-4"
               onClick={() => dispatch(decrementOrder(product.id))}
@@ -58,7 +58,7 @@ function Card({ product }) {
       <div className="mt-[38px]">
         <p className="text-[#87635A] text-xs">{product.category}</p>
         <h3 className="font-semibold">{product.name}</h3>
-        <p className="text-[#C73B0F] font-semibold">${product.price}</p>
+        <p className="text-[#0fc76b] font-semibold">${product.price}</p>
       </div>
     </div>
   );
